@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.9.6 on darwin)" generated="2025-09-21T13:11:22.363964" rpa="false" schemaversion="5">
+<suite id="s1" name="Auction Service" source="/Users/eminshamshoian/Documents/apps/artxi/backend/AuctionService/tests/robot/auction_service.robot">
+<kw name="Setup Auction API Session" owner="Common" type="SETUP">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.431863" level="INFO">${headers} = {'Content-Type': 'application/json', 'Accept': 'application/json'}</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Accept=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.431660" elapsed="0.000223"/>
+</kw>
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-09-21T13:11:22.432102" level="INFO">Creating Session using : alias=auction, url=http://localhost:7001, headers={'Content-Type': 'application/json', 'Accept': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>${SESSION_ALIAS}</arg>
+<arg>${BASE_URL}</arg>
+<arg>headers=${headers}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-09-21T13:11:22.431955" elapsed="0.000244"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.432660" level="INFO">${DEFAULT_HEADERS} = {'Content-Type': 'application/json', 'Accept': 'application/json'}</msg>
+<arg>${DEFAULT_HEADERS}</arg>
+<arg>${headers}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.432268" elapsed="0.000415"/>
+</kw>
+<status status="PASS" start="2025-09-21T13:11:22.431338" elapsed="0.001378"/>
+</kw>
+<test id="s1-t1" name="List Scheduled Auctions" line="13">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.433043" level="INFO">${params} = {'status': 'Scheduled', 'includeItem': 'false', 'page': '1', 'pageSize': '5'}</msg>
+<var>${params}</var>
+<arg>status=Scheduled</arg>
+<arg>includeItem=false</arg>
+<arg>page=1</arg>
+<arg>pageSize=5</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.432927" elapsed="0.000129"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-09-21T13:11:22.469396" level="INFO">GET Request : url=http://localhost:7001/api/auctions?status=Scheduled&amp;includeItem=false&amp;page=1&amp;pageSize=5 
+ path_url=/api/auctions?status=Scheduled&amp;includeItem=false&amp;page=1&amp;pageSize=5 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': 'application/json', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2025-09-21T13:11:22.469492" level="INFO">GET Response : url=http://localhost:7001/api/auctions?status=Scheduled&amp;includeItem=false&amp;page=1&amp;pageSize=5 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Sun, 21 Sep 2025 20:11:21 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked'} 
+ body=[] 
+ </msg>
+<msg time="2025-09-21T13:11:22.469592" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>url=/api/auctions</arg>
+<arg>params=${params}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.433144" elapsed="0.036465"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.470150" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.469771" elapsed="0.000418"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.470415" level="INFO">${auctions} = []</msg>
+<var>${auctions}</var>
+<arg>${response}</arg>
+<arg>json</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.470287" elapsed="0.000143"/>
+</kw>
+<kw name="Get Length" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.470603" level="INFO">Length is 0.</msg>
+<msg time="2025-09-21T13:11:22.470648" level="INFO">${count} = 0</msg>
+<var>${count}</var>
+<arg>${auctions}</arg>
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.470525" elapsed="0.000136"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${count} &gt;= 0</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.470747" elapsed="0.000149"/>
+</kw>
+<status status="PASS" start="2025-09-21T13:11:22.432752" elapsed="0.038238"/>
+</test>
+<test id="s1-t2" name="Create And Delete Item Roundtrip" line="21">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.473708" level="INFO">${uuid} = 4e9fc4d2-fd8b-4c62-9913-d485bd51fb53</msg>
+<var>${uuid}</var>
+<arg>str(__import__('uuid').uuid4())</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.471325" elapsed="0.002404"/>
+</kw>
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.473960" level="INFO">${title} = Robot Item4e9fc4d2-fd8b-4c62-9913-d485bd51fb53</msg>
+<var>${title}</var>
+<arg>SEPARATOR=</arg>
+<arg>Robot Item</arg>
+<arg>${uuid}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.473834" elapsed="0.000141"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.474316" level="INFO">${payload} = {'title': 'Robot Item4e9fc4d2-fd8b-4c62-9913-d485bd51fb53', 'description': 'Created via Robot Framework test suite.', 'mimeType': 'image/png', 'assetUrl': 'https://example.com/assets/robot-item.png'}</msg>
+<var>${payload}</var>
+<arg>title=${title}</arg>
+<arg>description=${ITEM_DESCRIPTION}</arg>
+<arg>mimeType=${MIME_TYPE}</arg>
+<arg>assetUrl=${ASSET_URL}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.474075" elapsed="0.000257"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-21T13:11:22.486984" level="INFO">POST Request : url=http://localhost:7001/api/items 
+ path_url=/api/items 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': 'application/json', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '199'} 
+ body=b'{"title": "Robot Item4e9fc4d2-fd8b-4c62-9913-d485bd51fb53", "description": "Created via Robot Framework test suite.", "mimeType": "image/png", "assetUrl": "https://example.com/assets/robot-item.png"}' 
+ </msg>
+<msg time="2025-09-21T13:11:22.487049" level="INFO">POST Response : url=http://localhost:7001/api/items 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Sun, 21 Sep 2025 20:11:21 GMT', 'Server': 'Kestrel', 'Location': 'http://localhost:7001/api/items/a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68', 'Transfer-Encoding': 'chunked'} 
+ body={"id":"a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68","title":"Robot Item4e9fc4d2-fd8b-4c62-9913-d485bd51fb53","description":"Created via Robot Framework test suite.","creatorId":null,"creatorDisplayName":null,"collectionName":null,"editionNumber":null,"editionSize":null,"mediaType":0,"mimeType":"image/png","assetUrl":"https://example.com/assets/robot-item.png","previewUrl":null,"thumbnailUrl":null,"fileSizeBytes":0,"widthPx":null,"heightPx":null,"checksumSha256":null,"externalRef":null,"license":0,"royaltyBps":0,"status":0,"tags":[],"attributes":{},"createdAt":"2025-09-21T20:11:22.476625+00:00","publishedAt":null} 
+ </msg>
+<msg time="2025-09-21T13:11:22.487151" level="INFO">${create_response} = &lt;Response [201]&gt;</msg>
+<var>${create_response}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>url=/api/items</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.474423" elapsed="0.012810"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.487798" level="INFO">${status} = 201</msg>
+<var>${status}</var>
+<arg>${create_response.status_code}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.487403" elapsed="0.000413"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${status} != 201</arg>
+<arg>Log</arg>
+<arg>${create_response}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.487924" elapsed="0.000115"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.488221" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${status}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.488125" elapsed="0.000131"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.488476" level="INFO">${created} = {'id': 'a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68', 'title': 'Robot Item4e9fc4d2-fd8b-4c62-9913-d485bd51fb53', 'description': 'Created via Robot Framework test suite.', 'creatorId': None, 'creatorDisplayNa...</msg>
+<var>${created}</var>
+<arg>${create_response}</arg>
+<arg>json</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.488343" elapsed="0.000148"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<msg time="2025-09-21T13:11:22.488676" level="INFO">False</msg>
+<arg>${created}</arg>
+<arg>id</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.488575" elapsed="0.000125"/>
+</kw>
+<kw name="Get From Dictionary" owner="Collections">
+<msg time="2025-09-21T13:11:22.488902" level="INFO">${item_id} = a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68</msg>
+<var>${item_id}</var>
+<arg>${created}</arg>
+<arg>id</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.488796" elapsed="0.000120"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.489063" level="INFO">Length is 36.</msg>
+<arg>${item_id}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.488991" elapsed="0.000097"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-09-21T13:11:22.496278" level="INFO">GET Request : url=http://localhost:7001/api/items/a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68 
+ path_url=/api/items/a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': 'application/json', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2025-09-21T13:11:22.496335" level="INFO">GET Response : url=http://localhost:7001/api/items/a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Sun, 21 Sep 2025 20:11:21 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked'} 
+ body={"id":"a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68","title":"Robot Item4e9fc4d2-fd8b-4c62-9913-d485bd51fb53","description":"Created via Robot Framework test suite.","creatorId":null,"creatorDisplayName":null,"collectionName":null,"editionNumber":null,"editionSize":null,"mediaType":0,"mimeType":"image/png","assetUrl":"https://example.com/assets/robot-item.png","previewUrl":null,"thumbnailUrl":null,"fileSizeBytes":0,"widthPx":null,"heightPx":null,"checksumSha256":null,"externalRef":null,"license":0,"royaltyBps":0,"status":0,"tags":[],"attributes":{},"createdAt":"2025-09-21T20:11:22.476625+00:00","publishedAt":null} 
+ </msg>
+<msg time="2025-09-21T13:11:22.496428" level="INFO">${get_response} = &lt;Response [200]&gt;</msg>
+<var>${get_response}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>url=/api/items/${item_id}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.489162" elapsed="0.007281"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.496996" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${get_response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.496615" elapsed="0.000420"/>
+</kw>
+<kw name="DELETE On Session" owner="RequestsLibrary">
+<msg time="2025-09-21T13:11:22.503514" level="INFO">DELETE Request : url=http://localhost:7001/api/items/a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68 
+ path_url=/api/items/a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': 'application/json', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2025-09-21T13:11:22.503568" level="INFO">DELETE Response : url=http://localhost:7001/api/items/a29c3e33-80b5-48fb-8f1c-4a70aa3bfc68 
+ status=204, reason=No Content 
+ headers={'Date': 'Sun, 21 Sep 2025 20:11:21 GMT', 'Server': 'Kestrel'} 
+ body=None 
+ </msg>
+<msg time="2025-09-21T13:11:22.503663" level="INFO">${delete_response} = &lt;Response [204]&gt;</msg>
+<var>${delete_response}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>url=/api/items/${item_id}</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.497141" elapsed="0.006538"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-09-21T13:11:22.504206" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${delete_response.status_code}</arg>
+<arg>204</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.503830" elapsed="0.000415"/>
+</kw>
+<status status="PASS" start="2025-09-21T13:11:22.471118" elapsed="0.033233"/>
+</test>
+<kw name="Teardown Auction API Session" owner="Common" type="TEARDOWN">
+<kw name="Delete All Sessions" owner="RequestsLibrary">
+<msg time="2025-09-21T13:11:22.504861" level="INFO">Deleting All Sessions</msg>
+<doc>Removes all the session objects</doc>
+<status status="PASS" start="2025-09-21T13:11:22.504815" elapsed="0.000097"/>
+</kw>
+<status status="PASS" start="2025-09-21T13:11:22.504695" elapsed="0.000250"/>
+</kw>
+<doc>Smoke coverage for Auction Service REST endpoints using Robot Framework.</doc>
+<status status="PASS" start="2025-09-21T13:11:22.364944" elapsed="0.140017"/>
+</suite>
+<statistics>
+<total>
+<stat pass="2" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="2" fail="0" skip="0" id="s1" name="Auction Service">Auction Service</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
